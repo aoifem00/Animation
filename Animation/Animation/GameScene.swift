@@ -16,14 +16,14 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
+        //self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
+        /*if let label = self.label {
             label.alpha = 0.0
             label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        }*/
         
         // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
+        /*let w = (self.size.width + self.size.height) * 0.05
         self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
         
         if let spinnyNode = self.spinnyNode {
@@ -33,15 +33,23 @@ class GameScene: SKScene {
             spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
-        }
+        }*/
         let bearTexture=SKTexture(imageNamed:"Image")
         let bear = SKSpriteNode(texture:bearTexture)
-        bear.position = CGPoint(x: 100, y: 100)
+        bear.position = CGPoint(x: 0, y: 100)
         self.addChild(bear)
         let coyoteTexture=SKTexture(imageNamed:"Image-1")
         let coyote = SKSpriteNode(texture:coyoteTexture)
-        coyote.position = CGPoint(x: 200, y: 200)
+        coyote.position = CGPoint(x: 100, y: 100)
         self.addChild(coyote)
+        let deerTexture=SKTexture(imageNamed:"Image-2")
+        let deer = SKSpriteNode(texture:deerTexture)
+        deer.position = CGPoint(x: 200, y: 100)
+        self.addChild(deer)
+        let beaverTexture=SKTexture(imageNamed:"Image-3")
+        let beaver = SKSpriteNode(texture:beaverTexture)
+        beaver.position = CGPoint(x: 300, y: 100)
+        self.addChild(beaver)
     }
     
     
