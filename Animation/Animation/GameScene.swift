@@ -52,17 +52,25 @@ class GameScene: SKScene {
         let beaver = SKSpriteNode(texture:beaverTexture)
         
         let arr=[bear, coyote, deer, beaver]
-        let animal=getRandAnimal(arr: arr)
-        animal.position=CGPoint(x:300, y:100)
+        getRandAnimal(arr: arr)
+    }
+    
+    func getRandAnimal(arr:[SKSpriteNode]){
+        let animal=arr.randomElement()!
+        let startX=self.frame.maxX;
+        let endX=self.frame.minX;
+        animal.position=CGPoint(x:startX, y:100)
+        let action=SKAction.moveTo(x:endX, duration:1)
         self.addChild(animal)
-        let action=SKAction.moveTo(x:-100, duration:0.75)
         animal.run(action)
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
+            animal.removeFromParent()
+        }
     }
     
-    func getRandAnimal(arr:[SKSpriteNode])->SKSpriteNode{
-        return arr.randomElement()!
-    }
-    
+    /*func removeAnimal(timer:Timer, animal:SKSpriteNode){
+        animal.removeFromParent()
+    }*/
     
     
     func touchDown(atPoint pos : CGPoint) {
