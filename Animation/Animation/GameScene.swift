@@ -34,23 +34,35 @@ class GameScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }*/
+        let playerTexture=SKTexture(imageNamed:"Image-4");
+        let player=SKSpriteNode(texture:playerTexture)
+        player.position=CGPoint(x: -50, y: 100);
+        self.addChild(player)
+        
         let bearTexture=SKTexture(imageNamed:"Image")
         let bear = SKSpriteNode(texture:bearTexture)
-        bear.position = CGPoint(x: 0, y: 100)
-        self.addChild(bear)
+        
         let coyoteTexture=SKTexture(imageNamed:"Image-1")
         let coyote = SKSpriteNode(texture:coyoteTexture)
-        coyote.position = CGPoint(x: 100, y: 100)
-        self.addChild(coyote)
+        
         let deerTexture=SKTexture(imageNamed:"Image-2")
         let deer = SKSpriteNode(texture:deerTexture)
-        deer.position = CGPoint(x: 200, y: 100)
-        self.addChild(deer)
+        
         let beaverTexture=SKTexture(imageNamed:"Image-3")
         let beaver = SKSpriteNode(texture:beaverTexture)
-        beaver.position = CGPoint(x: 300, y: 100)
-        self.addChild(beaver)
+        
+        let arr=[bear, coyote, deer, beaver]
+        let animal=getRandAnimal(arr: arr)
+        animal.position=CGPoint(x:300, y:100)
+        self.addChild(animal)
+        let action=SKAction.moveTo(x:-100, duration:0.75)
+        animal.run(action)
     }
+    
+    func getRandAnimal(arr:[SKSpriteNode])->SKSpriteNode{
+        return arr.randomElement()!
+    }
+    
     
     
     func touchDown(atPoint pos : CGPoint) {

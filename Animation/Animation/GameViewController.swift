@@ -29,6 +29,9 @@ class GameViewController: UIViewController {
             //view.showsNodeCount = true
         }
     }
+    @IBAction func buttonIsClicked(_sender:UIButton){
+        
+    }
     override var shouldAutorotate: Bool {
         return true
     }
