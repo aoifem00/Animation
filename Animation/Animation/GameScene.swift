@@ -10,6 +10,9 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    weak var enemy:SKNode!
+    weak var player:SKSpriteNode!
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
@@ -34,9 +37,10 @@ class GameScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }*/
-        let playerTexture=SKTexture(imageNamed:"Image-4");
-        let player=SKSpriteNode(texture:playerTexture)
-        player.position=CGPoint(x: -50, y: 100);
+        let spriteTexture=SKTexture(imageNamed:"Image-4");
+        let sprite=SKSpriteNode(texture:spriteTexture)
+        sprite.position=CGPoint(x: -50, y: 100);
+        player=sprite
         self.addChild(player)
         
         let bearTexture=SKTexture(imageNamed:"Image")
@@ -55,7 +59,7 @@ class GameScene: SKScene {
         //getRandAnimal(arr: arr)
         var count=0
         let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            self.getRandAnimal(arr: arr, player: player)
+            self.getRandAnimal(arr: arr)
             count+=1
         }
         if(count==1){
@@ -63,7 +67,12 @@ class GameScene: SKScene {
         }
     }
     
-    func getRandAnimal(arr:[SKSpriteNode], player:SKSpriteNode){
+    @objc func getEnemyPos(){
+        print("\(enemy.position.x)")
+    }
+    
+    
+    func getRandAnimal(arr:[SKSpriteNode]){
         let animal=arr.randomElement()!
         let startX=self.frame.maxX;
         let endX=self.frame.minX;
@@ -74,15 +83,26 @@ class GameScene: SKScene {
             self.addChild(animal)
         }
         animal.run(action)
+        enemy=animal
         var count=0
-        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
+            count+=1
+            self.getEnemyPos()
+            if(count==100 || self.player.intersects(self.enemy)){
+                timer.invalidate()
+                animal.removeAllActions()
+                animal.removeFromParent()
+            }
+        }
+        //var count=0
+        /*let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
             animal.removeAllActions()
             animal.removeFromParent()
             count+=1
         }
         if(count==1){
             timer.invalidate()
-        }
+        }*/
     }
     
     func touchDown(atPoint pos : CGPoint) {
