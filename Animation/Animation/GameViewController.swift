@@ -28,11 +28,6 @@ class GameViewController: UIViewController {
             //view.showsFPS = true
             //view.showsNodeCount = true
         }
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
-        button.backgroundColor = .green
-        button.setTitle("Test Button", for: .normal)
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-        self.view.addSubview(button)
     }
     @IBAction func buttonIsClicked(_sender:UIButton){
         
