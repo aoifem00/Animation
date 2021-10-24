@@ -11,6 +11,8 @@ import GameplayKit
 class GameScene: SKScene {
     let ground=100
     var inGame=true
+    weak var gameOverLabel:UILabel!
+    weak var startButton:UIButton!
     
     weak var enemy:SKNode!
     weak var player:SKSpriteNode!
@@ -64,18 +66,22 @@ class GameScene: SKScene {
         label.center = CGPoint(x: 160, y: 285)
         label.textAlignment = .center
         label.text = "Game over!"
+        gameOverLabel=label
 
-        self.gameView.addSubview(label)
+        self.gameView.addSubview(gameOverLabel)
         let button=UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        button.center=CGPoint(x: 320, y: 285)
+        button.center=CGPoint(x: 160, y: 335)
         button.setTitle("Play again", for: .normal)
-        self.gameView.addSubview(button)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action:#selector(restartGame), for: .touchUpInside)
+        startButton=button
+        self.gameView.addSubview(self.startButton)
         
         
-        let timer=Timer.scheduledTimer(withTimeInterval:5, repeats: false){ timer in
+        /*let timer=Timer.scheduledTimer(withTimeInterval:5, repeats: false){ timer in
             self.didMove(to: self.gameView)
             label.removeFromSuperview()
-        }
+        }*/
     }
     
     func getRandAnimal(arr:[SKSpriteNode]){
@@ -130,6 +136,13 @@ class GameScene: SKScene {
             self.addChild(n)
         }
     }
+    @IBAction func restartGame(){
+        print("in restart game")
+        self.gameOverLabel.removeFromSuperview()
+        self.startButton.removeFromSuperview()
+        didMove(to: self.gameView)
+    }
+    
     func buttonIsClicked(){
         let yPoint=self.player.position.y+300
         //let yPoint2=self.player.position.y
@@ -145,24 +158,19 @@ class GameScene: SKScene {
                 action=SKAction.moveTo(y:CGFloat(self.ground), duration:0.5)
                 self.player.run(action)
             }
-            
-            
         }
     }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(inGame==true){
-            var count1=0
-            //var count2=99
-            for touch in touches {
-                if((count1==touch.tapCount)==false){
-                   buttonIsClicked()
-                }
-                count1=touch.tapCount
+        var count=0
+        //var count2=99
+        for touch in touches {
+            if((count==touch.tapCount)==false && (inGame==true)){
+               buttonIsClicked()
             }
+            count=touch.tapCount
         }
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
