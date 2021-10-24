@@ -56,8 +56,16 @@ class GameScene: SKScene {
     func gameOverScreen(){
         self.removeAllChildren()
         print("Game over!")
-        let timer=Timer.scheduledTimer(withTimeInterval:1, repeats: false){ timer in
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        label.center = CGPoint(x: 160, y: 285)
+        label.textAlignment = .center
+        label.text = "Game over!"
+
+        self.gameView.addSubview(label)
+        
+        let timer=Timer.scheduledTimer(withTimeInterval:5, repeats: false){ timer in
             self.didMove(to: self.gameView)
+            label.removeFromSuperview()
         }
     }
     
