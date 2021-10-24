@@ -22,16 +22,29 @@ class GameScene: SKScene {
     weak var animalTimer:Timer!
     weak var buttonIsClickedTimer:Timer!
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
-    
     override func didMove(to view: SKView) {
+        //let image=UIImage(named:"Image-5")
+        let background=SKSpriteNode(imageNamed:"Image-5")
+        background.size=self.frame.size
+        background.position=CGPoint(x:self.frame.midX, y:self.frame.midY)
+        self.addChild(background)
         self.inGame=true
         gameView=view
-        let playerSpriteTexture=SKTexture(imageNamed:"Image-4");
+        
+        var img=UIImage(named:"Image-4")
+        let weight=UIImage.SymbolWeight.black
+        let conf=UIImage.SymbolConfiguration.init(weight: weight)
+        img=img?.applyingSymbolConfiguration(conf)
+        
+        let playerSpriteTexture=SKTexture.init(image:img!)
+        //let playerSpriteTexture=SKTexture(imageNamed:"Image-4");
         let playerSprite=SKSpriteNode(texture:playerSpriteTexture)
-        playerSprite.position=CGPoint(x: -50, y: 100);
+        playerSprite.position=CGPoint(x: -50, y: 100)
         player=playerSprite
+        player.size.width=200
+        player.size.height=200
+        print(self.player.size.width)
+        print(self.player.size.height)
         self.addChild(player)
         
         let bearTexture=SKTexture(imageNamed:"Image")
@@ -49,19 +62,18 @@ class GameScene: SKScene {
         let arr=[bear, coyote, deer, beaver]
         //getRandAnimal(arr: arr)
         var count=0
-        didMoveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { didMoveTimer in
+        /*didMoveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { didMoveTimer in
             self.getRandAnimal(arr: arr)
             count+=1
         }
         if(count==1){
             didMoveTimer.invalidate()
-        }
+        }*/
     }
     
     func gameOverScreen(){
-        inGame=false
+        self.inGame=false
         self.removeAllChildren()
-        print("Game over!")
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
         label.center = CGPoint(x: 160, y: 285)
         label.textAlignment = .center
@@ -69,19 +81,14 @@ class GameScene: SKScene {
         gameOverLabel=label
 
         self.gameView.addSubview(gameOverLabel)
-        let button=UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        let button=UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         button.center=CGPoint(x: 160, y: 335)
         button.setTitle("Play again", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action:#selector(restartGame), for: .touchUpInside)
+        button.backgroundColor=UIColor.black
         startButton=button
         self.gameView.addSubview(self.startButton)
-        
-        
-        /*let timer=Timer.scheduledTimer(withTimeInterval:5, repeats: false){ timer in
-            self.didMove(to: self.gameView)
-            label.removeFromSuperview()
-        }*/
     }
     
     func getRandAnimal(arr:[SKSpriteNode]){
@@ -112,32 +119,7 @@ class GameScene: SKScene {
         }
     }
     
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            //print("hello")
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
     @IBAction func restartGame(){
-        print("in restart game")
         self.gameOverLabel.removeFromSuperview()
         self.startButton.removeFromSuperview()
         didMove(to: self.gameView)
@@ -171,22 +153,5 @@ class GameScene: SKScene {
             }
             count=touch.tapCount
         }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
 }
