@@ -10,6 +10,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     let ground=100
+    var inGame=true
     
     weak var enemy:SKNode!
     weak var player:SKSpriteNode!
@@ -17,11 +18,13 @@ class GameScene: SKScene {
     
     weak var didMoveTimer:Timer!
     weak var animalTimer:Timer!
+    weak var buttonIsClickedTimer:Timer!
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
     override func didMove(to view: SKView) {
+        self.inGame=true
         gameView=view
         let playerSpriteTexture=SKTexture(imageNamed:"Image-4");
         let playerSprite=SKSpriteNode(texture:playerSpriteTexture)
@@ -54,6 +57,7 @@ class GameScene: SKScene {
     }
     
     func gameOverScreen(){
+        inGame=false
         self.removeAllChildren()
         print("Game over!")
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
@@ -62,6 +66,11 @@ class GameScene: SKScene {
         label.text = "Game over!"
 
         self.gameView.addSubview(label)
+        let button=UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        button.center=CGPoint(x: 320, y: 285)
+        button.setTitle("Play again", for: .normal)
+        self.gameView.addSubview(button)
+        
         
         let timer=Timer.scheduledTimer(withTimeInterval:5, repeats: false){ timer in
             self.didMove(to: self.gameView)
@@ -122,38 +131,39 @@ class GameScene: SKScene {
         }
     }
     func buttonIsClicked(){
-        var yPoint=self.player.position.y+300
+        let yPoint=self.player.position.y+300
         //let yPoint2=self.player.position.y
         var action=SKAction.moveTo(y:yPoint, duration:0.5)
         //let action2=SKAction.moveTo(y:yPoint2, duration:0.2)
         self.player.run(action)
         
-        let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false){ timer in
-            action=SKAction.moveTo(y:CGFloat(self.ground), duration:0.5)
-            self.player.run(action)
+        self.buttonIsClickedTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false){ buttonIsClickedTimer in
+            if(self.inGame==false){
+                buttonIsClickedTimer.invalidate()
+            }
+            else{
+                action=SKAction.moveTo(y:CGFloat(self.ground), duration:0.5)
+                self.player.run(action)
+            }
+            
             
         }
     }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        var count1=0
-        //var count2=99
-        var pos=self.player.position
-        for touch in touches {
-            if((count1==touch.tapCount)==false){
-               buttonIsClicked()
+        if(inGame==true){
+            var count1=0
+            //var count2=99
+            for touch in touches {
+                if((count1==touch.tapCount)==false){
+                   buttonIsClicked()
+                }
+                count1=touch.tapCount
             }
-            count1=touch.tapCount
-        }
-    }
-    /*override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
         }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }*/
+    }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
