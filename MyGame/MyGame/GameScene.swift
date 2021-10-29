@@ -1,8 +1,8 @@
 //
 //  GameScene.swift
-//  Animation
+//  MyGame
 //
-//  Created by Aoife McManus on 10/8/21.
+//  Created by Aoife McManus on 10/28/21.
 //
 
 import SpriteKit
@@ -62,13 +62,13 @@ class GameScene: SKScene {
         let arr=[bear, coyote, deer, beaver]
         //getRandAnimal(arr: arr)
         var count=0
-        /*didMoveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { didMoveTimer in
+        didMoveTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { didMoveTimer in
             self.getRandAnimal(arr: arr)
             count+=1
         }
         if(count==1){
             didMoveTimer.invalidate()
-        }*/
+        }
     }
     
     func gameOverScreen(){

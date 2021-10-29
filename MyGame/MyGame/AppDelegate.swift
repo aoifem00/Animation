@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Animation
+//  MyGame
 //
-//  Created by Aoife McManus on 10/8/21.
+//  Created by Aoife McManus on 10/28/21.
 //
 
 import UIKit

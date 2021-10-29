@@ -1,8 +1,8 @@
 //
 //  GameViewController.swift
-//  Animation
+//  MyGame
 //
-//  Created by Aoife McManus on 10/8/21.
+//  Created by Aoife McManus on 10/28/21.
 //
 
 import UIKit
@@ -13,6 +13,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -25,13 +26,11 @@ class GameViewController: UIViewController {
             
             view.ignoresSiblingOrder = true
             
-            //view.showsFPS = true
-            //view.showsNodeCount = true
+            view.showsFPS = true
+            view.showsNodeCount = true
         }
     }
-    @IBAction func buttonIsClicked(_sender:UIButton){
-        
-    }
+
     override var shouldAutorotate: Bool {
         return true
     }
@@ -42,7 +41,7 @@ class GameViewController: UIViewController {
         } else {
             return .all
         }
-     }
+    }
 
     override var prefersStatusBarHidden: Bool {
         return true
